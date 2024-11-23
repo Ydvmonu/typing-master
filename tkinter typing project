@@ -1,0 +1,60 @@
+import tkinter as tk
+from time import time
+import random as r
+
+def mistake(par, user):
+    error = 0
+    for i in range(len(par)):
+        try:
+            if par[i] != user[i]:
+                error += 1
+        except:
+            error += 1
+    return error
+
+def speed(start_time, end_time, user_input):
+    time_taken = end_time - start_time
+    time_taken = round(time_taken, 2)
+    speed = len(user_input) / time_taken
+    return round(speed, 2)
+
+def start_test():
+    test_text = r.choice(tests)
+    text_label.config(text=test_text)
+
+    global start_time
+    start_time = time()
+
+def calculate_speed():
+    user_input = input_text.get("1.0", tk.END).strip()
+    end_time = time()
+
+    wpm = speed(start_time, end_time, user_input)
+    error_count = mistake(text_label.cget("text"), user_input)
+
+    result_label.config(text=f"Speed: {wpm} w/sec\nErrors: {error_count}")
+
+root = tk.Tk()
+root.title("Typing Speed Test")
+tests = [    "I met a person who is a business man, he is very rich and disciplined.","I am Pritam. I am an intern at code clouse.","Your are good at study but not good in sports", "we are emplye here for past 20 years, our manager should respect us."]
+
+    "The quick brown fox jumps over the lazy dog.",
+    "Python programming is fun and educational."
+]
+
+text_label = tk.Label(root, text="", font=("Helvetica", 14))
+text_label.pack(pady=20)
+
+input_text = tk.Text(root, height=5, width=50)
+input_text.pack(pady=10)
+
+start_button = tk.Button(root, text="Start Test", command=start_test)
+start_button.pack(pady=10)
+
+calculate_button = tk.Button(root, text="Calculate Speed", command=calculate_speed)
+calculate_button.pack(pady=10)
+
+result_label = tk.Label(root, text="", font=("Helvetica", 12))
+result_label.pack(pady=20)
+
+root.mainloop()
